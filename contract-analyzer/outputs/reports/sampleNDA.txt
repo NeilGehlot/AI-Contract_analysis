@@ -1,0 +1,51 @@
+================================================================================
+CONTRACT ANALYSIS REPORT
+================================================================================
+
+FILE INFORMATION:
+  Filename: sampleNDA.pdf
+  Pages: 3
+  Analyzed: 2026-04-11T11:23:37.324507
+
+CONTRACT TYPE:
+  Type: NDA
+  Confidence: 25.00%
+
+EXTRACTED ENTITIES:
+
+  Parties:
+    1. TechStart Innovations Private Limited Address
+    2. Uttar Pradesh - 201301
+    3. legaltechstart.in
+    4. VentureCapital Partners LLP Address
+    5. Marine Drive
+    6. Maharashtra - 400002
+    7. Disclosing Party
+    8. the Receiving Party
+    9. The Receiving Party
+    10. Limit
+
+  Key Dates:
+    None found
+
+  Monetary Amounts:
+    None found
+
+  Contract Terms:
+    None found
+
+RISK ASSESSMENT:
+
+  MEDIUM RISKS (4):
+    1. Missing force majeure clause
+       Recommendation: Request addition of force majeure clause
+    2. Missing dispute resolution clause
+       Recommendation: Request addition of dispute resolution clause
+    3. Missing indemnification clause
+       Recommendation: Request addition of indemnification clause
+    4. Missing confidentiality clause
+       Recommendation: Request addition of confidentiality clause
+
+================================================================================
+END OF REPORT
+================================================================================

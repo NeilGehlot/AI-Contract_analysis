@@ -1,0 +1,62 @@
+"""
+Text Cleaner
+Cleans and normalizes contract text
+"""
+
+import re
+from typing import Dict
+from src.utils.logger import setup_logger
+
+logger = setup_logger(__name__)
+
+class TextCleaner:
+    """Clean contract text"""
+    
+    def __init__(self):
+        """Initialize text cleaner"""
+        logger.info("TextCleaner initialized")
+    
+    def clean(self, text: str) -> str:
+        """
+        Clean contract text
+        
+        Args:
+            text: Raw text
+            
+        Returns:
+            Cleaned text
+        """
+        logger.info(f"Cleaning text ({len(text)} characters)")
+        
+        # Remove page numbers
+        text = re.sub(r'Page \d+ of \d+', '', text, flags=re.IGNORECASE)
+        text = re.sub(r'^\s*\d+\s*$', '', text, flags=re.MULTILINE)
+        
+        # Remove headers/footers
+        text = re.sub(r'CONFIDENTIAL.*?\n', '', text, flags=re.IGNORECASE)
+        text = re.sub(r'PROPRIETARY.*?\n', '', text, flags=re.IGNORECASE)
+        
+        # Normalize whitespace
+        text = re.sub(r'\s+', ' ', text)
+        text = re.sub(r'\n\s*\n', '\n\n', text)
+        
+        # Keep legal symbols
+        text = re.sub(r'[^\w\s\.,;:()\-–—§©®™\'\"\[\]{}₹$]', '', text)
+        
+        # Standardize currency
+        text = text.replace('Rs.', '₹').replace('INR', '₹')
+        
+        logger.info(f"Cleaned text ({len(text)} characters)")
+        return text.strip()
+    
+    def get_statistics(self, text: str) -> Dict:
+        """Get text statistics"""
+        words = text.split()
+        sentences = re.split(r'[.!?]+', text)
+        
+        return {
+            'char_count': len(text),
+            'word_count': len(words),
+            'sentence_count': len([s for s in sentences if s.strip()]),
+            'avg_word_length': sum(len(w) for w in words) / len(words) if words else 0
+        }

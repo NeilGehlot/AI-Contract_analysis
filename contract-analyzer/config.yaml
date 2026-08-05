@@ -1,0 +1,60 @@
+# Contract Analyzer Configuration
+
+# Project paths
+paths:
+  raw_data: "data/raw"
+  processed_data: "data/processed"
+  models: "data/models"
+  outputs: "outputs/reports"
+  logs: "outputs/logs"
+
+# Entity labels for NER
+entities:
+  labels:
+    - "PARTY"
+    - "DATE"
+    - "AMOUNT"
+    - "OBLIGATION"
+    - "TERM"
+    - "EMAIL"
+    - "ADDRESS"
+
+# Contract types
+contract_types:
+  - "NDA"
+  - "Employment Agreement"
+  - "Service Agreement"
+  - "Vendor Agreement"
+  - "Consulting Agreement"
+  - "Lease Agreement"
+  - "Partnership Agreement"
+  - "Sales Agreement"
+
+# Risk detection rules
+risk_rules:
+  payment_terms_threshold: 60  # days
+  liability_keywords:
+    - "unlimited liability"
+    - "unlimited damages"
+    - "no cap on liability"
+  
+  missing_clauses:
+    - "force majeure"
+    - "dispute resolution"
+    - "indemnification"
+    - "confidentiality"
+  
+  unfair_terms:
+    - "automatic renewal"
+    - "perpetual license"
+    - "non-compete"
+
+# Processing settings
+processing:
+  max_text_length: 100000
+  chunk_size: 1000
+  
+# Logging
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"

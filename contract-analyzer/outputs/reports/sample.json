@@ -1,0 +1,67 @@
+{
+  "success": true,
+  "file_info": {
+    "filename": "sample.pdf",
+    "pages": 2,
+    "analyzed_at": "2026-04-11T10:50:58.052306"
+  },
+  "text_stats": {
+    "char_count": 5431,
+    "word_count": 839,
+    "sentence_count": 65,
+    "avg_word_length": 5.4743742550655545
+  },
+  "classification": {
+    "type": "Service Agreement",
+    "confidence": 0.5,
+    "all_scores": {
+      "NDA": 0,
+      "Employment Agreement": 0,
+      "Service Agreement": 2,
+      "Vendor Agreement": 0,
+      "Consulting Agreement": 0,
+      "Lease Agreement": 0,
+      "Partnership Agreement": 0,
+      "Sales Agreement": 0
+    }
+  },
+  "entities": {
+    "parties": [
+      "the Parties. 8.2 If the dispute cannot be resolved within thirty  days, the matter shall be referred to arbitration in accordance with the Arbitration",
+      "Conciliation Act",
+      "Acme Technologies Private Limited",
+      "Whitefield",
+      "Bangalore",
+      "Karnataka - 560066",
+      "Haryana - 122002",
+      "the \"Service Provider",
+      "The Company and Service Provider",
+      "the Service Provider"
+    ],
+    "dates": [],
+    "amounts": [
+      {
+        "amount": "5,00,000",
+        "currency": "₹",
+        "value": 500000.0
+      },
+      {
+        "amount": "10",
+        "currency": "₹",
+        "value": 10.0
+      }
+    ],
+    "emails": [],
+    "terms": {}
+  },
+  "risks": [
+    {
+      "type": "missing_clause",
+      "severity": "MEDIUM",
+      "description": "Missing confidentiality clause",
+      "recommendation": "Request addition of confidentiality clause",
+      "clause": null
+    }
+  ],
+  "sample_text": "SERVICE AGREEMENT This Service Agreement (\"Agreement\") is made and entered into on this 15th day of January, 2024 (\"Effective Date\"), by and between: PARTY A: Acme Technologies Private Limited, a company incorporated under the Companies Act, 2013, having its registered office at 123 Tech Park, Whitefield, Bangalore, Karnataka - 560066, India (hereinafter referred to as the \"Company\") AND PARTY B: XYZ Software Solutions Limited, a company incorporated under the Companies Act, 2013, having its reg..."
+}
