@@ -14,8 +14,11 @@ from src.utils.logger import setup_logger
 logger = setup_logger(__name__)
 SEPARATOR = "=" * 60
 
+
 class ContractAnalyzer:
+
     """Main contract analyzer"""
+
     def __init__(self):
         """Initialize analyzer"""
         logger.info(SEPARATOR)
@@ -29,6 +32,7 @@ class ContractAnalyzer:
         self.risk_detector = RiskDetector()
         
         logger.info("✓ All components initialized successfully")
+
     
     def analyze(self, pdf_path: str) -> Dict:
         """
