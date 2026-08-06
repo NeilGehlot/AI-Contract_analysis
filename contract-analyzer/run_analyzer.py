@@ -1,9 +1,3 @@
-#!/usr/bin/env python3
-"""
-Contract Analyzer - Main Entry Point
-Analyzes PDF contracts and generates reports
-"""
-
 import sys
 import argparse
 from pathlib import Path
@@ -13,20 +7,30 @@ from src.analysis.analyzer import ContractAnalyzer
 from src.analysis.report_generator import ReportGenerator
 
 init()
+SEPARATOR = "=" * 80
+MAX_DISPLAYED_RISKS = 3
+
 
 def print_header():
-    """Print application header"""
-    print(Fore.CYAN + "="*80)
-    print(Fore.CYAN + "CONTRACT ANALYZER - AI-Powered Contract Analysis & Risk Detection")
-    print(Fore.CYAN + "Manipal University Jaipur - Semester 4 Prototype")
-    print(Fore.CYAN + "="*80)
+    """
+    Display the application header 
+    """
+    print(Fore.CYAN + SEPARATOR)
+    print(
+        Fore.CYAN +
+          "CONTRACT ANALYZER - AI-Powered Contract Analysis & Risk Detection")
+    
+    print(Fore.CYAN + SEPARATOR)
     print(Style.RESET_ALL)
 
+
 def print_summary(result: dict):
-    """Print analysis summary to console"""
-    print("\n" + Fore.GREEN + "="*80)
+    """
+    Display the analysis summary in the terminal
+    """
+    print("\n" + Fore.GREEN + SEPARATOR)
     print(Fore.GREEN + "ANALYSIS SUMMARY")
-    print(Fore.GREEN + "="*80 + Style.RESET_ALL)
+    print(Fore.GREEN + SEPARATOR + Style.RESET_ALL)
     
     print(f"\n{Fore.YELLOW}Contract Type:{Style.RESET_ALL} {result['classification']['type']}")
     print(f"{Fore.YELLOW}Confidence:{Style.RESET_ALL} {result['classification']['confidence']:.2%}")
@@ -42,21 +46,37 @@ def print_summary(result: dict):
     print(f"\n{Fore.YELLOW}Risk Assessment:{Style.RESET_ALL}")
     if high_risks:
         print(f"  {Fore.RED}• HIGH RISKS: {len(high_risks)}{Style.RESET_ALL}")
-        for risk in high_risks[:3]:  
+        for risk in high_risks[:MAX_DISPLAYED_RISKS]:  
             print(f"    - {risk['description']}")
     
     if medium_risks:
         print(f"  {Fore.YELLOW}• MEDIUM RISKS: {len(medium_risks)}{Style.RESET_ALL}")
-        for risk in medium_risks[:3]:  
+        for risk in medium_risks[:MAX_DISPLAYED_RISKS]:  
             print(f"    - {risk['description']}")
     
     if not high_risks and not medium_risks:
         print(f"  {Fore.GREEN}• No significant risks detected{Style.RESET_ALL}")
     
-    print("\n" + Fore.GREEN + "="*80 + Style.RESET_ALL)
+    print("\n" + Fore.GREEN + SEPARATOR + Style.RESET_ALL)
+
+
+def validate_input(pdf_path: Path):
+    """
+    Validate whether the provided file exists 
+    """
+    if not pdf_path.exists():
+        print(f"{Fore.RED}Error: File not found: {pdf_path}{Style.RESET_ALL}")
+        sys.exit(1)
+    
+    if pdf_path.suffix.lower() != '.pdf':
+        print(f"{Fore.RED}Error: File must be a PDF{Style.RESET_ALL}")
+        sys.exit(1)
+    
 
 def main():
-    """Main function"""
+    """
+    Execute the contract analysis pipeline
+    """
     parser = argparse.ArgumentParser(
         description='Analyze PDF contracts for risks and extract key information'
     )
@@ -83,23 +103,16 @@ def main():
     args = parser.parse_args()
     
     pdf_path = Path(args.pdf_file)
-    if not pdf_path.exists():
-        print(f"{Fore.RED}Error: File not found: {pdf_path}{Style.RESET_ALL}")
-        sys.exit(1)
-    
-    if pdf_path.suffix.lower() != '.pdf':
-        print(f"{Fore.RED}Error: File must be a PDF{Style.RESET_ALL}")
-        sys.exit(1)
-    
+    validate_input(pdf_path)
     print_header()
     
     try:
-        #analyzer
+        #initializing the analysis tool 
         print(f"\n{Fore.CYAN}Initializing analyzer...{Style.RESET_ALL}")
         analyzer = ContractAnalyzer()
         report_gen = ReportGenerator(args.output_dir)
         
-        #contract
+        #Analysing input contract 
         print(f"\n{Fore.CYAN}Analyzing contract: {pdf_path.name}{Style.RESET_ALL}\n")
         result = analyzer.analyze(str(pdf_path))
         
@@ -131,10 +144,11 @@ def main():
         print(f"\n{Fore.YELLOW}Analysis cancelled by user{Style.RESET_ALL}")
         sys.exit(0)
     except Exception as e:
-        print(f"\n{Fore.RED}Error: {str(e)}{Style.RESET_ALL}")
+        print(f"\n{Fore.RED}Error: {e}{Style.RESET_ALL}")
         import traceback
         traceback.print_exc()
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()
