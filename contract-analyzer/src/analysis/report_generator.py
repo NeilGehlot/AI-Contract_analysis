@@ -92,7 +92,7 @@ class ReportGenerator:
     
     def _split_risks(self, risks):
         """
-        Splits the risks into high and medium risks
+        Splits the risks by severity
         """
         high_risks = [
             risk for risk in risks
