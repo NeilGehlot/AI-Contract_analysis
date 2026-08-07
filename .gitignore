@@ -1,11 +1,10 @@
 __pycache__/
-*.pyc
-.venv/
+*.py[cod]
 venv/
-.idea/
+.venv/
 .vscode/
-outputs/logs/
-outputs/reports/*
+.idea/
 outputs/logs/*
-!outputs/reports/.gitkeep
+outputs/reports/*
 !outputs/logs/.gitkeep
+!outputs/reports/.gitkeep
