@@ -5,7 +5,7 @@ CONTRACT ANALYSIS REPORT
 FILE INFORMATION:
   Filename: sample.pdf
   Pages: 2
-  Analyzed: 2026-04-11T10:50:58.052306
+  Analyzed: 2026-08-07T17:19:55.069993
 
 CONTRACT TYPE:
   Type: Service Agreement

@@ -1,0 +1,86 @@
+{
+  "success": true,
+  "file_info": {
+    "filename": "sample_contract.pdf",
+    "pages": 1,
+    "analyzed_at": "2026-08-07T17:20:10.562143"
+  },
+  "text_stats": {
+    "char_count": 578,
+    "word_count": 90,
+    "sentence_count": 12,
+    "avg_word_length": 5.433333333333334
+  },
+  "classification": {
+    "type": "Service Agreement",
+    "confidence": 0.5,
+    "all_scores": {
+      "NDA": 0,
+      "Employment Agreement": 0,
+      "Service Agreement": 2,
+      "Vendor Agreement": 0,
+      "Consulting Agreement": 1,
+      "Lease Agreement": 0,
+      "Partnership Agreement": 0,
+      "Sales Agreement": 0
+    }
+  },
+  "entities": {
+    "parties": [
+      "ABC Pvt Ltd",
+      "John Doe",
+      "LIABILITY"
+    ],
+    "dates": [],
+    "amounts": [],
+    "emails": [],
+    "terms": {
+      "payment_terms": "90 days"
+    }
+  },
+  "risks": [
+    {
+      "type": "unlimited_liability",
+      "severity": "HIGH",
+      "description": "Contract contains \"unlimited liability\"",
+      "recommendation": "Negotiate a liability cap (typically 1-2x contract value)",
+      "clause": "LIABILITY The Consultant shall have unlimited liability for any damages arising from this agreement"
+    },
+    {
+      "type": "long_payment_terms",
+      "severity": "MEDIUM",
+      "description": "90-day payment terms (standard: 30-45 days)",
+      "recommendation": "Negotiate to reduce payment terms to 45 days",
+      "clause": "Payment terms: 90 days"
+    },
+    {
+      "type": "missing_clause",
+      "severity": "MEDIUM",
+      "description": "Missing force majeure clause",
+      "recommendation": "Request addition of force majeure clause",
+      "clause": null
+    },
+    {
+      "type": "missing_clause",
+      "severity": "MEDIUM",
+      "description": "Missing dispute resolution clause",
+      "recommendation": "Request addition of dispute resolution clause",
+      "clause": null
+    },
+    {
+      "type": "missing_clause",
+      "severity": "MEDIUM",
+      "description": "Missing indemnification clause",
+      "recommendation": "Request addition of indemnification clause",
+      "clause": null
+    },
+    {
+      "type": "missing_clause",
+      "severity": "MEDIUM",
+      "description": "Missing confidentiality clause",
+      "recommendation": "Request addition of confidentiality clause",
+      "clause": null
+    }
+  ],
+  "sample_text": "SERVICE AGREEMENT This Service Agreement is made on 1st January 2026 between ABC Pvt Ltd (\"Company\") and John Doe (\"Consultant\"). 1. SERVICES The Consultant agrees to provide software development services. 2. PAYMENT TERMS The Company agrees to pay n5,00,000 within 90 days of invoice submission. 3. LIABILITY The Consultant shall have unlimited liability for any damages arising from this agreement. 4. Both parties agree to keep 5. TERM This agreement shall remain valid for 12 months and may autom..."
+}

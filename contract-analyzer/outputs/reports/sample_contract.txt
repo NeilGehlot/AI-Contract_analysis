@@ -1,0 +1,50 @@
+================================================================================
+CONTRACT ANALYSIS REPORT
+================================================================================
+
+FILE INFORMATION:
+  Filename: sample_contract.pdf
+  Pages: 1
+  Analyzed: 2026-08-07T17:20:10.562143
+
+CONTRACT TYPE:
+  Type: Service Agreement
+  Confidence: 50.00%
+
+EXTRACTED ENTITIES:
+
+  Parties:
+    1. ABC Pvt Ltd
+    2. John Doe
+    3. LIABILITY
+
+  Key Dates:
+    None found
+
+  Monetary Amounts:
+    None found
+
+  Contract Terms:
+    • Payment Terms: 90 days
+
+RISK ASSESSMENT:
+
+  HIGH RISKS (1):
+    1. Contract contains "unlimited liability"
+       Recommendation: Negotiate a liability cap (typically 1-2x contract value)
+
+  MEDIUM RISKS (5):
+    1. 90-day payment terms (standard: 30-45 days)
+       Recommendation: Negotiate to reduce payment terms to 45 days
+    2. Missing force majeure clause
+       Recommendation: Request addition of force majeure clause
+    3. Missing dispute resolution clause
+       Recommendation: Request addition of dispute resolution clause
+    4. Missing indemnification clause
+       Recommendation: Request addition of indemnification clause
+    5. Missing confidentiality clause
+       Recommendation: Request addition of confidentiality clause
+
+================================================================================
+END OF REPORT
+================================================================================
