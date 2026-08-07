@@ -142,7 +142,7 @@ python run_analyzer.py "data/raw/sampleNDA.pdf" --output-dir outputs/custom_repo
 
 ## Text Report
 
-![Text Report](assets/text.png)
+![Text Report](assets/txt.png)
 ---
 
 # How the Pipeline Works
