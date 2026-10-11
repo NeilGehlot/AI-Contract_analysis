@@ -1,4 +1,4 @@
-"""LEGAL-BERT sequence classifier for clause-level risk severity (Sem 6)."""
+"""LEGAL-BERT sequence classifier for clause-level risk severity."""
 
 import torch
 from pathlib import Path

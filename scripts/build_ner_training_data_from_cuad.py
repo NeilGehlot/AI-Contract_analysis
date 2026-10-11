@@ -15,26 +15,32 @@ sys.path.insert(0, str(ROOT))
 
 from src.utils.cuad_utils import download_cuad_json, normalize_question
 
-# Map CUAD clause categories to our NER entity types.
+def category_key(name: str) -> str:
+    """Lowercase and collapse whitespace so titles match despite case and spacing."""
+    return " ".join(name.strip().lower().split())
+
+
+# Real CUAD question titles. Lookup uses category_key.
 CUAD_TO_ENTITY = {
     "Parties": "PARTY",
     "Agreement Date": "DATE",
     "Effective Date": "DATE",
     "Expiration Date": "DATE",
     "Renewal Term": "TERM",
-    "Notice to Terminate Renewal": "TERM",
+    "Notice Period To Terminate Renewal": "TERM",
     "Minimum Commitment": "OBLIGATION",
     "Post-Termination Services": "OBLIGATION",
     "Revenue/Profit Sharing": "OBLIGATION",
     "Audit Rights": "OBLIGATION",
     "Uncapped Liability": "CLAUSE",
-    "Cap on Liability": "CLAUSE",
+    "Cap On Liability": "CLAUSE",
     "Liquidated Damages": "CLAUSE",
-    "Termination for Convenience": "CLAUSE",
+    "Termination For Convenience": "CLAUSE",
     "Governing Law": "TERM",
     "License Grant": "OBLIGATION",
-    "IP Ownership Assignment": "OBLIGATION",
+    "Ip Ownership Assignment": "OBLIGATION",
 }
+ENTITY_BY_KEY = {category_key(name): label for name, label in CUAD_TO_ENTITY.items()}
 
 
 def chunk_text_with_entities(
@@ -69,6 +75,7 @@ def build_ner_examples(cuad_json_path: Path, max_text_length: int = 50000) -> li
         data = json.load(f)
 
     examples = []
+    seen_keys = set()
 
     for item in data["data"]:
         for paragraph in item.get("paragraphs", []):
@@ -79,7 +86,8 @@ def build_ner_examples(cuad_json_path: Path, max_text_length: int = 50000) -> li
             entities = []
             for qa in paragraph.get("qas", []):
                 category = normalize_question(qa.get("question", ""))
-                entity_type = CUAD_TO_ENTITY.get(category)
+                seen_keys.add(category_key(category))
+                entity_type = ENTITY_BY_KEY.get(category_key(category))
                 if not entity_type:
                     continue
 
@@ -100,6 +108,14 @@ def build_ner_examples(cuad_json_path: Path, max_text_length: int = 50000) -> li
 
             for chunk in chunk_text_with_entities(text, entities):
                 examples.append(chunk)
+
+    missing = [name for name in CUAD_TO_ENTITY if category_key(name) not in seen_keys]
+    if missing:
+        print("Mapped names with no raw CUAD match:")
+        for name in missing:
+            print(f"  {name}")
+    else:
+        print("Every mapped NER name matched a raw CUAD category.")
 
     return examples
 

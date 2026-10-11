@@ -1,4 +1,4 @@
-"""Document-level AI risk detector — Sem 5 inference wrapper."""
+"""Document-level risk detector for the embedding classifier."""
 
 from pathlib import Path
 from typing import Dict, List

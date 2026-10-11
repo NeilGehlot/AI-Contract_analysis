@@ -93,13 +93,13 @@ def compare(
         "ai_classifier": ai_metrics,
         "comparison_table": [
             {
-                "method": "Rule-based (Sem 3/4)",
+                "method": "Rules",
                 "precision": rule_metrics["weighted_precision"],
                 "recall": rule_metrics["weighted_recall"],
                 "f1": rule_metrics["weighted_f1"],
             },
             {
-                "method": "AI classifier (Sem 5)",
+                "method": "Embeddings + logistic regression",
                 "precision": ai_metrics["weighted_precision"],
                 "recall": ai_metrics["weighted_recall"],
                 "f1": ai_metrics["weighted_f1"],
@@ -127,7 +127,7 @@ def compare(
             )
 
     print(f"Test set: {len(test_texts)} clauses (source={source_filter})")
-    print("\n=== RULE-BASED (Sem 3/4) ===")
+    print("\n=== RULES ===")
     print(classification_report(test_labels, rule_preds, zero_division=0))
     print(
         f"Weighted: precision={rule_metrics['weighted_precision']:.3f} "
@@ -135,7 +135,7 @@ def compare(
         f"f1={rule_metrics['weighted_f1']:.3f}\n"
     )
 
-    print("=== AI CLASSIFIER (Sem 5) ===")
+    print("=== EMBEDDINGS + LOGISTIC REGRESSION ===")
     print(classification_report(test_labels, ai_preds, zero_division=0))
     print(
         f"Weighted: precision={ai_metrics['weighted_precision']:.3f} "

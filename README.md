@@ -1,6 +1,6 @@
 # Contract Analyzer
 
-This tool reads an English PDF contract, pulls out parties, dates, and amounts, and marks each clause HIGH, MEDIUM, or LOW risk. Three engines ship in this repo: keyword rules, sentence embeddings plus logistic regression, and LEGAL-BERT. It is a classroom and research helper, not legal advice.
+This tool reads an English PDF contract, pulls out parties, dates, and amounts, and marks each clause HIGH, MEDIUM, or LOW risk. Three engines ship in this repo: keyword rules, sentence embeddings plus logistic regression, and LEGAL-BERT. It is a classroom project, not legal advice.
 
 ## Features
 
@@ -61,9 +61,11 @@ python scripts/train_legal_bert_ner.py
 
 LEGAL-BERT risk training needs a CUDA GPU. On an RTX 3050 4 GB laptop GPU, three training runs took about 35 minutes.
 
+The training scripts use a random 15 percent validation split of clauses. The evaluation table above used a split by contract, so scores from these scripts can look higher than the table.
+
 ## Evaluation
 
-A held-out CUAD test split of 77 contracts (1,650 clauses), split by contract, mean over three seeds. These figures are recorded here as plain values. This repo does not include the prediction files or the weights, so the table cannot be regenerated from this copy alone.
+A held-out CUAD test split of 77 contracts (1,650 clauses), split by contract, mean over three seeds. These figures are recorded here as plain values. This repo does not include the prediction files or the weights, so the table cannot be regenerated from this repository.
 
 | Engine | Accuracy | Weighted F1 | Macro F1 | HIGH F1 |
 | --- | ---: | ---: | ---: | ---: |

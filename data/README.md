@@ -1,6 +1,6 @@
 # Data
 
-`data/raw/` in this copy holds small sample PDFs only.
+`data/raw/` in this repo holds small sample PDFs only.
 
 CUAD is not included. `scripts/build_training_data_from_cuad.py` downloads it on first use from:
 

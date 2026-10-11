@@ -1,4 +1,4 @@
-"""Factory helpers for loading Sem 5/6 model components."""
+"""Factory helpers for loading model components."""
 
 from pathlib import Path
 

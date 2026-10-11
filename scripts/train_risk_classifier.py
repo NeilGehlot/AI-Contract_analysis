@@ -4,6 +4,7 @@
         python scripts/train_risk_classifier.py
 """
 
+import argparse
 import json
 import sys
 from pathlib import Path
@@ -15,10 +16,14 @@ from src.models.fast_ai_risk_classifier import FastAIRiskClassifier
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Train the sentence-embedding plus logistic regression risk classifier"
+    )
+    parser.parse_args()
     training_path = Path("data/processed/risk_training_data.json")
     if not training_path.exists():
         raise FileNotFoundError(
-            f"{training_path} not found. Run scripts/build_risk_training_data.py first."
+            f"{training_path} not found. Run scripts/build_training_data_from_cuad.py first."
         )
 
     with open(training_path, encoding="utf-8") as f:
@@ -26,12 +31,6 @@ def main() -> None:
 
     texts = [d["text"] for d in data]
     labels = [d["label"] for d in data]
-    if len(texts) < 20:
-        print(
-            f"Warning: only {len(texts)} examples — metrics will be unreliable. "
-            "Use the full annotated_contracts.json (1,512 contracts) for real Sem 5 results."
-        )
-
     model = FastAIRiskClassifier()
     model.train(texts, labels)
     model.save("data/models/fast_risk_classifier.joblib")

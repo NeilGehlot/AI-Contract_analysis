@@ -1,7 +1,7 @@
-"""Fine-tune LEGAL-BERT for HIGH, MEDIUM, and LOW risk. Needs a CUDA GPU.
+"""Fine-tune LEGAL-BERT for HIGH, MEDIUM, and LOW clause risk.
 
-    Run from the repo root:
-        python scripts/train_legal_bert_risk.py --out-dir data/models/legal_bert_risk --seed 42
+Run from the repo root:
+    python scripts/train_legal_bert_risk.py
 """
 
 import argparse

@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
-"""Analyze one PDF contract and write JSON, text, and PDF reports.
-
-Run from the repo root:
-    python run_analyzer.py data/raw/sample_contract.pdf
+"""
+Contract Analyzer - Main Entry Point
+Analyzes PDF contracts and generates reports
 """
 
 import sys
@@ -40,7 +39,7 @@ def print_summary(result: dict):
     print(f"\n{Fore.YELLOW}Risk Assessment:{Style.RESET_ALL}")
     flagged = [r for r in result['risks'] if r['severity'] in ('HIGH', 'MEDIUM')]
     if not flagged:
-        print(f"  {Fore.GREEN}• No significant risks detected{Style.RESET_ALL}")
+        print(f"  {Fore.GREEN}- No significant risks detected{Style.RESET_ALL}")
     for risk in flagged:
         color = Fore.RED if risk['severity'] == 'HIGH' else Fore.YELLOW
         topic = risk.get('topic') or 'Risk'

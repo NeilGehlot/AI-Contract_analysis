@@ -1,4 +1,4 @@
-"""Document-level LEGAL-BERT risk detector (Sem 6)."""
+"""Document-level LEGAL-BERT risk detector."""
 
 from pathlib import Path
 from typing import Dict, List

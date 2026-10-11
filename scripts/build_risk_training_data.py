@@ -43,8 +43,8 @@ def split_into_clauses(text: str) -> list[dict]:
     return [{"text": c, "type": "UNKNOWN"} for c in chunks]
 
 
-def build_training_examples(annotated_contracts_path: str, output_path: str) -> dict:
-    with open(annotated_contracts_path, encoding="utf-8") as f:
+def build_training_examples(contracts_path: str, output_path: str) -> dict:
+    with open(contracts_path, encoding="utf-8") as f:
         contracts = json.load(f)
 
     rule_engine = RuleBasedRiskEngine()
@@ -88,7 +88,7 @@ def build_training_examples(annotated_contracts_path: str, output_path: str) -> 
 
 
 def bootstrap_annotated_from_pdfs(raw_dir: str, output_path: str) -> str:
-    """Build annotated_contracts.json from PDFs when the full annotation set is unavailable."""
+    """Build a local contracts JSON from PDFs when a labelled file is unavailable."""
     extractor = PDFExtractor()
     cleaner = TextCleaner()
     contracts = []
@@ -116,11 +116,11 @@ def bootstrap_annotated_from_pdfs(raw_dir: str, output_path: str) -> str:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Build risk training data for Sem 5 AI classifier")
+    parser = argparse.ArgumentParser(description="Build risk training data from local PDFs")
     parser.add_argument(
         "--input",
-        default="data/processed/annotated_contracts.json",
-        help="Annotated contracts JSON (contracts with clauses[] and optional risk_label)",
+        default="data/processed/clause_contracts.json",
+        help="JSON of contracts with clauses and an optional risk label",
     )
     parser.add_argument(
         "--output",
@@ -130,12 +130,12 @@ def main() -> None:
     parser.add_argument(
         "--bootstrap-from-pdfs",
         action="store_true",
-        help="Create annotated_contracts.json from PDFs in data/raw first",
+        help="Create the contracts JSON from PDFs in data/raw first",
     )
     parser.add_argument(
         "--force-bootstrap",
         action="store_true",
-        help="Rebuild annotated_contracts.json from PDFs even if it already exists",
+        help="Rebuild the contracts JSON from PDFs even if it already exists",
     )
     parser.add_argument(
         "--raw-dir",
@@ -149,8 +149,8 @@ def main() -> None:
         bootstrap_annotated_from_pdfs(args.raw_dir, str(input_path))
     elif not input_path.exists():
         raise FileNotFoundError(
-            f"{input_path} not found. Copy your 1,512 annotated contracts there, "
-            "or rerun with --bootstrap-from-pdfs to use local sample PDFs."
+            f"{input_path} not found. "
+            "Rerun with --bootstrap-from-pdfs to use local sample PDFs."
         )
 
     build_training_examples(str(input_path), args.output)

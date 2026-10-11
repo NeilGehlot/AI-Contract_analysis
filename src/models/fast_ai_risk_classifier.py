@@ -1,4 +1,4 @@
-"""Sem 5 AI risk classifier — sentence embeddings + Logistic Regression."""
+"""Risk classifier: sentence embeddings plus logistic regression."""
 
 import torch  # preload on Windows before sentence_transformers
 

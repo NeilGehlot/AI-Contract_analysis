@@ -1,4 +1,4 @@
-"""LEGAL-BERT NER entity extractor (Sem 6)."""
+"""LEGAL-BERT NER entity extractor."""
 
 import json
 import re

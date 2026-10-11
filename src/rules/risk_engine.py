@@ -1,4 +1,4 @@
-"""Rule-based risk detector — Sem 3/4 baseline, kept for comparison and weak-label bootstrap."""
+"""Keyword risk detector, kept for comparison and weak-label bootstrap."""
 
 
 class RuleBasedRiskEngine:

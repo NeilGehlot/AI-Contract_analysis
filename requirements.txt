@@ -1,27 +1,27 @@
-# PDF Processing
+# PDF processing
 pdfplumber==0.10.3
 PyPDF2==3.0.1
 
 # NLP and ML
 spacy==3.7.2
-transformers==4.35.0
-# GPU: python -m pip install torch --index-url https://download.pytorch.org/whl/cu126
+transformers==5.16.1
+# GPU build: python -m pip install torch --index-url https://download.pytorch.org/whl/cu126
 torch>=2.1.0
 scikit-learn==1.3.2
-sentence-transformers
-joblib
-seqeval
-accelerate
+sentence-transformers==6.0.1
+joblib==1.5.3
+seqeval==1.2.2
+accelerate==1.14.0
 
-# Data Processing
+# Data processing
 pandas==2.1.3
 numpy==1.24.3
 python-dateutil==2.8.2
 
 # Utilities
 tqdm==4.66.1
-pyyaml==6.0.1
+PyYAML==6.0.1
 colorama==0.4.6
 
-# Report Generation
+# Report generation
 reportlab==4.0.7
