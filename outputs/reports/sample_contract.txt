@@ -5,7 +5,7 @@ CONTRACT ANALYSIS REPORT
 FILE INFORMATION:
   Filename: sample_contract.pdf
   Pages: 1
-  Analyzed: 2026-08-07T17:20:10.562143
+  Analyzed: 2026-10-12T01:44:23.741716
 
 CONTRACT TYPE:
   Type: Service Agreement
@@ -30,20 +30,32 @@ EXTRACTED ENTITIES:
 RISK ASSESSMENT:
 
   HIGH RISKS (1):
-    1. Contract contains "unlimited liability"
-       Recommendation: Negotiate a liability cap (typically 1-2x contract value)
+    1. Risk
+       Clause: LIABILITY The Consultant shall have unlimited liability for any damages arising from this agreement...
+       Why: Contract contains "unlimited liability"
+       What to do: Negotiate a liability cap (typically 1-2x contract value)
 
   MEDIUM RISKS (5):
-    1. 90-day payment terms (standard: 30-45 days)
-       Recommendation: Negotiate to reduce payment terms to 45 days
-    2. Missing force majeure clause
-       Recommendation: Request addition of force majeure clause
-    3. Missing dispute resolution clause
-       Recommendation: Request addition of dispute resolution clause
-    4. Missing indemnification clause
-       Recommendation: Request addition of indemnification clause
-    5. Missing confidentiality clause
-       Recommendation: Request addition of confidentiality clause
+    1. Risk
+       Clause: Payment terms: 90 days
+       Why: 90-day payment terms (standard: 30-45 days)
+       What to do: Negotiate to reduce payment terms to 45 days
+    2. Risk
+       Clause: 
+       Why: Missing force majeure clause
+       What to do: Request addition of force majeure clause
+    3. Risk
+       Clause: 
+       Why: Missing dispute resolution clause
+       What to do: Request addition of dispute resolution clause
+    4. Risk
+       Clause: 
+       Why: Missing indemnification clause
+       What to do: Request addition of indemnification clause
+    5. Risk
+       Clause: 
+       Why: Missing confidentiality clause
+       What to do: Request addition of confidentiality clause
 
 ================================================================================
 END OF REPORT

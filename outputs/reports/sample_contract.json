@@ -3,7 +3,7 @@
   "file_info": {
     "filename": "sample_contract.pdf",
     "pages": 1,
-    "analyzed_at": "2026-08-07T17:20:10.562143"
+    "analyzed_at": "2026-10-12T01:44:23.741716"
   },
   "text_stats": {
     "char_count": 578,
@@ -44,7 +44,7 @@
       "severity": "HIGH",
       "description": "Contract contains \"unlimited liability\"",
       "recommendation": "Negotiate a liability cap (typically 1-2x contract value)",
-      "clause": "LIABILITY The Consultant shall have unlimited liability for any damages arising from this agreement"
+      "clause": "LIABILITY The Consultant shall have unlimited liability for any damages arising from this agreement..."
     },
     {
       "type": "long_payment_terms",

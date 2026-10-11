@@ -1,291 +1,87 @@
 # Contract Analyzer
 
-A Python application that analyzes PDF contracts and generates structured reports. The project extracts important information from contracts, classifies the contract type, checks for predefined legal risks, and produces reports in JSON, text, and PDF formats.
+This tool reads an English PDF contract, pulls out parties, dates, and amounts, and marks each clause HIGH, MEDIUM, or LOW risk. Three engines ship in this repo: keyword rules, sentence embeddings plus logistic regression, and LEGAL-BERT. It is a classroom and research helper, not legal advice.
 
-This project was built as part of a university software engineering project to learn how natural language processing and rule based systems can be applied to legal documents.
+## Features
 
-![Python](https://img.shields.io/badge/Python-3.11-blue)
-![spaCy](https://img.shields.io/badge/spaCy-NLP-green)
-![License](https://img.shields.io/badge/License-MIT-yellow)
-
----
-
-# Features
-
-- Extracts text from PDF contracts
-- Cleans and normalizes extracted text
-- Classifies contract types
-- Extracts important contract information including:
-  - Parties
-  - Dates
-  - Monetary amounts
-  - Email addresses
-  - Contract terms
-- Detects predefined legal risks
-- Generates reports in JSON, TXT, and PDF formats
-- Uses a modular pipeline that separates extraction, analysis, and reporting
-
----
-
-# Project Architecture
-
-```text
-                PDF Contract
-                     │
-                     ▼
-             PDF Text Extractor
-                     │
-                     ▼
-               Text Cleaner
-                     │
-                     ▼
-            Entity Extractor
-                     │
-                     ▼
-          Contract Classifier
-                     │
-                     ▼
-             Risk Detector
-                     │
-                     ▼
-            Report Generator
-             ├── JSON
-             ├── TXT
-             └── PDF
+```
+PDF -> extract text -> clean -> entities -> contract type -> risk -> JSON / TXT / PDF
 ```
 
----
+| Stage | What it does |
+| --- | --- |
+| Text extraction | pdfplumber, then PyPDF2 |
+| Cleaning | Whitespace and length cleanup |
+| Entities | Parties, dates, amounts, and terms |
+| Contract type | Keyword scoring over common agreement types |
+| Risk | One clause at a time, HIGH, MEDIUM, or LOW |
+| Reports | JSON, text, and PDF |
 
-# Installation
+## Risk engines
 
-Clone the repository.
+The default in `config.yaml` is `rules` for risk and `spacy` for entities. Neither needs trained weights.
 
-```bash
-git clone https://github.com/NeilGehlot/Contract-Analyzer.git
+| Engine | How to turn it on |
+| --- | --- |
+| Rules | `risk_detection.engine: "rules"` (default) |
+| Sentence embeddings + logistic regression | `risk_detection.engine: "fast_ai"` after `scripts/train_risk_classifier.py` |
+| LEGAL-BERT | After training, set `risk_detection.engine: "legal_bert"` and `legal_bert_model_path` to `data/models/risk_classifier_final`. For entities, set `entity_extraction.engine: "legal_bert"` after NER training. |
 
-cd Contract-Analyzer
-```
+The results table also includes a TF-IDF plus logistic regression baseline. That baseline was evaluated separately and is not included as an engine.
 
-Create a virtual environment.
+## Quick start
 
 ```bash
 python -m venv venv
 ```
 
-Activate the environment.
+Windows: `venv\Scripts\activate`
 
-### Windows
-
-```powershell
-venv\Scripts\activate
-```
-
-### Linux / macOS
-
-```bash
-source venv/bin/activate
-```
-
-Install the required packages.
+macOS or Linux: `source venv/bin/activate`
 
 ```bash
 pip install -r requirements.txt
-```
-
-Download the spaCy language model.
-
-```bash
 python -m spacy download en_core_web_sm
+python run_analyzer.py data/raw/sample_contract.pdf
 ```
 
----
+Reports are written to `outputs/reports/`.
 
-# Running the Project
+## Training
 
-Analyze a contract.
+Raw CUAD and trained weights are not in this repo. See `data/README.md` for the CUAD download. Training writes checkpoints under `data/models/`.
 
 ```bash
-python run_analyzer.py "data/raw/sampleNDA.pdf"
+python scripts/build_training_data_from_cuad.py
+python scripts/train_risk_classifier.py
+python scripts/train_legal_bert_risk.py
+python scripts/build_ner_training_data_from_cuad.py
+python scripts/train_legal_bert_ner.py
 ```
 
-Generate only the JSON report.
+LEGAL-BERT risk training needs a CUDA GPU. On an RTX 3050 4 GB laptop GPU, three training runs took about 35 minutes.
 
-```bash
-python run_analyzer.py "data/raw/sampleNDA.pdf" --json-only
-```
+## Evaluation
 
-Skip PDF report generation.
+A held-out CUAD test split of 77 contracts (1,650 clauses), split by contract, mean over three seeds. These figures are recorded here as plain values. This repo does not include the prediction files or the weights, so the table cannot be regenerated from this copy alone.
 
-```bash
-python run_analyzer.py "data/raw/sampleNDA.pdf" --no-pdf
-```
+| Engine | Accuracy | Weighted F1 | Macro F1 | HIGH F1 |
+| --- | ---: | ---: | ---: | ---: |
+| Rules | 0.421 | 0.283 | 0.240 | 0.098 |
+| Sentence embeddings + logistic regression | 0.762 | 0.774 | 0.712 | 0.511 |
+| TF-IDF + logistic regression | 0.835 | 0.838 | 0.796 | 0.665 |
+| LEGAL-BERT | 0.903 | 0.901 | 0.867 | 0.758 |
 
-Specify a custom output directory.
+## Limits
 
-```bash
-python run_analyzer.py "data/raw/sampleNDA.pdf" --output-dir outputs/custom_reports
-```
+English clause text only. There is no OCR. Labels come from CUAD category names, not a fresh lawyer review of each sentence. There is no Indian-contract evaluation in these numbers. This is not legal advice.
 
----
+## License
 
-# Example Output
+Code is MIT. See `LICENSE`.
 
-## Terminal Output
+CUAD is used under CC BY 4.0. Cite Hendrycks, Burns, Chen, and Ball, NeurIPS 2021.
 
-![Terminal Output](assets/terminal.png)
----
+## Author
 
-## PDF Report
-
-![PDF Report](assets/pdf.png)
----
-
-## Text Report
-
-![Text Report](assets/txt.png)
----
-
-# How the Pipeline Works
-
-### 1. PDF Extraction
-
-The application first attempts to extract text using **pdfplumber**. If that fails, it automatically falls back to **PyPDF2**.
-
----
-
-### 2. Text Cleaning
-
-The extracted text is cleaned before further processing.
-
-The cleaning stage removes:
-
-- Page numbers
-- Confidentiality headers
-- Extra whitespace
-- Unsupported characters
-
-Currency values are also normalized.
-
----
-
-### 3. Entity Extraction
-
-The cleaned text is processed using a combination of spaCy and regular expressions.
-
-The application extracts:
-
-- Parties
-- Dates
-- Monetary amounts
-- Email addresses
-- Contract terms
-
----
-
-### 4. Contract Classification
-
-A simple keyword based scoring approach is used to estimate the contract type.
-
-Currently supported contract types include:
-
-- NDA
-- Employment Agreement
-- Service Agreement
-- Vendor Agreement
-- Consulting Agreement
-- Lease Agreement
-- Partnership Agreement
-- Sales Agreement
-
----
-
-### 5. Risk Detection
-
-The extracted information is compared against configurable rules stored in `config.yaml`.
-
-The current implementation checks for:
-
-- Unlimited liability clauses
-- Missing contractual clauses
-- Long payment terms
-- Potentially unfair contract terms
-
-Each detected issue includes a description and a suggested recommendation.
-
----
-
-### 6. Report Generation
-
-The final analysis is exported in three formats.
-
-- JSON
-- Plain text
-- PDF
-
-Each report contains:
-
-- Contract information
-- Classification results
-- Extracted entities
-- Detected risks
-- Suggested recommendations
-
----
-
-# Technologies Used
-
-| Category | Tools |
-|----------|-------|
-| Programming Language | Python |
-| NLP | spaCy |
-| PDF Processing | pdfplumber, PyPDF2 |
-| Report Generation | ReportLab |
-| Configuration | YAML |
-| Text Processing | Regular Expressions |
-| Logging | Python logging |
-
----
-
-# Current Limitations
-
-This project was developed as a learning exercise and has a few limitations.
-
-- The classifier uses keyword matching instead of a machine learning model.
-- Risk detection is based on predefined rules.
-- Only English language contracts are supported.
-- Scanned PDFs that require OCR are not currently supported.
-- The application is intended for educational purposes and should not be used as a substitute for professional legal review.
-
----
-
-# Possible Future Improvements
-
-Some ideas for extending the project include:
-
-- Machine learning based contract classification
-- Legal-BERT based clause analysis
-- OCR support for scanned documents
-- Semantic similarity search for clauses
-- Risk scoring based on context
-- Web interface using Streamlit or FastAPI
-- Docker support
-- REST API integration
-
----
-
-# License
-
-This project is released under the MIT License.
-
-See the LICENSE file for more information.
-
----
-
-# Author
-
-**Neil Gehlot**
-
-B.Tech Data Science Engineering  
-Manipal University Jaipur
-
-LinkedIn: https://linkedin.com/in/neilgehlot
+Neil Gehlot, B.Tech Data Science Engineering, Manipal University Jaipur.

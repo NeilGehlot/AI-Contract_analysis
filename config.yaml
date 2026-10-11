@@ -1,6 +1,6 @@
-# Contract Analyzer Configuration
+# Contract Analyzer configuration
+# Default engines run without downloaded classifier weights.
 
-# Project paths
 paths:
   raw_data: "data/raw"
   processed_data: "data/processed"
@@ -8,7 +8,6 @@ paths:
   outputs: "outputs/reports"
   logs: "outputs/logs"
 
-# Entity labels for NER
 entities:
   labels:
     - "PARTY"
@@ -19,7 +18,6 @@ entities:
     - "EMAIL"
     - "ADDRESS"
 
-# Contract types
 contract_types:
   - "NDA"
   - "Employment Agreement"
@@ -30,31 +28,45 @@ contract_types:
   - "Partnership Agreement"
   - "Sales Agreement"
 
-# Risk detection rules
+# engine: rules | fast_ai | legal_bert
+# rules needs no weights.
+# fast_ai needs sentence-transformer weights (downloaded on first train or predict).
+# legal_bert needs a fine-tuned checkpoint. After training, set:
+#   engine: "legal_bert"
+#   legal_bert_model_path: "data/models/risk_classifier_final"
+risk_detection:
+  engine: "rules"
+  model_path: "data/models/fast_risk_classifier.joblib"
+  legal_bert_model_path: "data/models/risk_classifier_final"
+  min_confidence: 0.5
+
+# engine: spacy | legal_bert
+# spacy needs: python -m spacy download en_core_web_sm
+# legal_bert NER needs a checkpoint at model_path, then set engine: "legal_bert"
+entity_extraction:
+  engine: "spacy"
+  model_path: "data/models/ner"
+
 risk_rules:
-  payment_terms_threshold: 60  # days
+  payment_terms_threshold: 60
   liability_keywords:
     - "unlimited liability"
     - "unlimited damages"
     - "no cap on liability"
-  
   missing_clauses:
     - "force majeure"
     - "dispute resolution"
     - "indemnification"
     - "confidentiality"
-  
   unfair_terms:
     - "automatic renewal"
     - "perpetual license"
     - "non-compete"
 
-# Processing settings
 processing:
   max_text_length: 100000
   chunk_size: 1000
-  
-# Logging
+
 logging:
   level: "INFO"
   format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"

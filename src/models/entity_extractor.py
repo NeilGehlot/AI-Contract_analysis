@@ -1,37 +1,20 @@
+"""
+Entity Extractor
+Extracts key entities from contracts using spaCy
+"""
+
 import spacy
 import re
+from typing import List, Dict
 from src.utils.logger import setup_logger
 
 logger = setup_logger(__name__)
-MAX_PARTIES = 10
-MAX_DATES = 10
-MAX_AMOUNTS = 10
-MAX_EMAILS = 5
-MAX_NLP_TEXT = 5000
-
-PARTY_PATTERN = (
-    r"(?:BETWEEN|between)\s+(.*?)\s+"
-    r"(?:AND|and)\s+(.*?)(?:\.|,|\()"
-)
-
-EMAIL_PATTERN = (
-    r"\b[A-Za-z0-9._%+-]+@"
-    r"[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b"
-)
-
 
 class EntityExtractor:
-    """
-    Extract entities from contract text
-    """
-
-    def _log_count(self, entity_name, count):
-        logger.info(f"Found {count} {entity_name}")
-
+    """Extract entities from contract text"""
+    
     def __init__(self):
-        """
-        Initialize entity extractor
-        """
+        """Initialize entity extractor"""
         logger.info("Loading spaCy model...")
         try:
             self.nlp = spacy.load("en_core_web_sm")
@@ -40,9 +23,15 @@ class EntityExtractor:
             logger.error(f"Failed to load spaCy model: {e}")
             raise
     
-    def extract_all(self, text: str):
+    def extract_all(self, text: str) -> Dict:
         """
         Extract all entities
+        
+        Args:
+            text: Contract text
+            
+        Returns:
+            Dictionary of extracted entities
         """
         logger.info("Extracting entities...")
         
@@ -54,14 +43,13 @@ class EntityExtractor:
             'terms': self.extract_contract_terms(text)
         }
     
-    def extract_parties(self, text: str):
-        """
-        Extract party names
-        """
+    def extract_parties(self, text: str) -> List[str]:
+        """Extract party names"""
         parties = []
         
+        # Look for BETWEEN clause
         between_match = re.search(
-           PARTY_PATTERN,
+            r'(?:BETWEEN|between)\s+(.*?)\s+(?:AND|and)\s+(.*?)(?:\.|,|\()',
             text,
             re.DOTALL
         )
@@ -71,20 +59,20 @@ class EntityExtractor:
             party2 = re.sub(r'\(.*?\)', '', between_match.group(2)).strip()
             parties.extend([party1, party2])
         
-        doc = self.nlp(text[:MAX_NLP_TEXT])
+        # Use spaCy NER
+        doc = self.nlp(text[:5000])
         for ent in doc.ents:
             if ent.label_ in ['ORG', 'PERSON'] and ent.text not in parties:
                 if len(ent.text) > 3:
                     parties.append(ent.text)
         
-        parties = list(dict.fromkeys(parties))[:MAX_PARTIES]
-        self._log_count("parties", len(parties))
+        # Remove duplicates
+        parties = list(dict.fromkeys(parties))[:10]
+        logger.info(f"Found {len(parties)} parties")
         return parties
     
-    def extract_dates(self, text: str):
-        """
-        Extract dates
-        """
+    def extract_dates(self, text: str) -> List[Dict]:
+        """Extract dates"""
         dates = []
         
         patterns = [
@@ -102,13 +90,11 @@ class EntityExtractor:
                     'type': date_type
                 })
         
-        self._log_count("dates",len(dates))
-        return dates[:MAX_DATES]
+        logger.info(f"Found {len(dates)} dates")
+        return dates[:10]
     
-    def extract_amounts(self, text: str) :
-        """
-        Extract monetary amounts
-        """
+    def extract_amounts(self, text: str) -> List[Dict]:
+        """Extract monetary amounts"""
         amounts = []
         
         patterns = [
@@ -132,24 +118,21 @@ class EntityExtractor:
                     pass
         
         amounts.sort(key=lambda x: x['value'], reverse=True)
-        self._log_count("amounts",len(amounts))
-        return amounts[:MAX_AMOUNTS]
+        logger.info(f"Found {len(amounts)} amounts")
+        return amounts[:10]
     
-    def extract_emails(self, text: str):
-        """
-        Extract email addresses
-        """
-        
-        emails = list(set(re.findall(EMAIL_PATTERN, text)))[:MAX_EMAILS]
-        self._log_count("emails",len(emails))
+    def extract_emails(self, text: str) -> List[str]:
+        """Extract email addresses"""
+        pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+        emails = list(set(re.findall(pattern, text)))[:5]
+        logger.info(f"Found {len(emails)} emails")
         return emails
     
-    def extract_contract_terms(self, text: str):
-        """
-        Extract contract terms
-        """
+    def extract_contract_terms(self, text: str) -> Dict:
+        """Extract contract terms"""
         terms = {}
         
+        # Duration
         term_match = re.search(
             r'term\s+of\s+(\d+)\s+(year|month|day)s?',
             text,
@@ -158,6 +141,7 @@ class EntityExtractor:
         if term_match:
             terms['duration'] = f"{term_match.group(1)} {term_match.group(2)}(s)"
         
+        # Notice period
         notice_match = re.search(
             r'notice\s+(?:period\s+)?of\s+(\d+)\s+(day|month)s?',
             text,
@@ -166,6 +150,7 @@ class EntityExtractor:
         if notice_match:
             terms['notice_period'] = f"{notice_match.group(1)} {notice_match.group(2)}(s)"
         
+        # Payment terms
         payment_match = re.search(
             r'payment.*?(\d+)\s+days?',
             text,
@@ -174,5 +159,5 @@ class EntityExtractor:
         if payment_match:
             terms['payment_terms'] = f"{payment_match.group(1)} days"
         
-        self._log_count("contract terms",len(terms))
+        logger.info(f"Extracted {len(terms)} contract terms")
         return terms
