@@ -26,7 +26,7 @@ CLAUSES = [
     "7. Payment. If the Company disputes an invoice, payment may be withheld for 120 days. Late payment by the Company shall not incur interest.",
     "8. Intellectual property. All software, configurations, and work product created under this Agreement are assigned to the Company. The Vendor receives no licence to reuse that work.",
     "9. Limitation for the Company. The Company's total liability to the Vendor shall not exceed the fees paid in the previous one month.",
-    "10. Governing law. This Agreement is governed by the laws of India. Courts at Jaipur shall have exclusive jurisdiction. Nothing in this Agreement creates a partnership or employment relationship.",
+    "10. Governing law. This Agreement is governed by the law of India. Courts at Jaipur shall have exclusive jurisdiction. Nothing in this Agreement creates a partnership or employment relationship.",
     "Signed for Aarohi Digital Private Limited and for Neelkanth Facilities LLP. This document is a fictional classroom sample for demonstration. It is not a signed contract and it is not legal advice.",
 ]
 

@@ -19,6 +19,29 @@ CUAD_JSON_URL = (
     "https://huggingface.co/datasets/theatticusproject/cuad/resolve/main/CUAD_v1/CUAD_v1.json"
 )
 
+
+def normalize_question(question: str) -> str:
+    """CUAD questions look like: Highlight the parts ... related to \"Uncapped Liability\""""
+    match = re.search(r'related to "([^"]+)"', question)
+    if match:
+        return match.group(1)
+    match = re.search(r'parties to the "([^"]+)"', question)
+    if match:
+        return match.group(1)
+    return question
+
+
+def download_cuad(raw_dir: Path) -> Path:
+    raw_dir.mkdir(parents=True, exist_ok=True)
+    json_path = raw_dir / "CUAD_v1.json"
+    if json_path.exists():
+        return json_path
+
+    print(f"Downloading CUAD JSON from HuggingFace ({CUAD_JSON_URL}) ...")
+    urlretrieve(CUAD_JSON_URL, json_path)
+    return json_path
+
+
 def category_key(name: str) -> str:
     """Lowercase and collapse whitespace so category titles match despite case and spacing."""
     return " ".join(name.strip().lower().split())

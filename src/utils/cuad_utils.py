@@ -1,7 +1,6 @@
 """Shared helpers for downloading and parsing CUAD."""
 
 import re
-import zipfile
 from pathlib import Path
 from urllib.request import urlretrieve
 
@@ -27,6 +26,6 @@ def download_cuad_json(raw_dir: str | Path = "data/raw/cuad") -> Path:
     if json_path.exists():
         return json_path
 
-    print(f"Downloading CUAD JSON from HuggingFace...")
+    print("Downloading CUAD JSON from HuggingFace...")
     urlretrieve(CUAD_JSON_URL, json_path)
     return json_path

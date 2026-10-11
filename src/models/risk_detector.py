@@ -54,7 +54,7 @@ class RiskDetector:
                     'type': 'long_payment_terms',
                     'severity': 'MEDIUM',
                     'description': f'{days}-day payment terms (standard: 30-45 days)',
-                    'recommendation': f'Negotiate to reduce payment terms to 45 days',
+                    'recommendation': 'Negotiate to reduce payment terms to 45 days',
                     'clause': f'Payment terms: {days} days'
                 })
         

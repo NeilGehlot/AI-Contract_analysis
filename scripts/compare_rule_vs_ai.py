@@ -4,8 +4,6 @@
         python scripts/compare_rule_vs_ai.py
 """
 
-import torch  # preload on Windows before sentence_transformers
-
 import argparse
 import json
 import sys

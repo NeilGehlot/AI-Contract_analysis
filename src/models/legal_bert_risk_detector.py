@@ -1,6 +1,5 @@
 """Document-level LEGAL-BERT risk detector."""
 
-from pathlib import Path
 from typing import Dict, List
 
 import yaml

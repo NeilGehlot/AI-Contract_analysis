@@ -3,7 +3,6 @@ Contract Classifier
 Classifies contract type using keyword matching
 """
 
-import re
 from typing import Dict
 import yaml
 from src.utils.logger import setup_logger

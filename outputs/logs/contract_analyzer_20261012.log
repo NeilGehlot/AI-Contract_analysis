@@ -1,0 +1,52 @@
+2026-10-12 02:15:30 - src.analysis.analyzer - INFO - ============================================================
+2026-10-12 02:15:30 - src.analysis.analyzer - INFO - Initializing Contract Analyzer
+2026-10-12 02:15:30 - src.analysis.analyzer - INFO - ============================================================
+2026-10-12 02:15:30 - src.utils.pdf_extractor - INFO - PDFExtractor initialized
+2026-10-12 02:15:30 - src.utils.text_cleaner - INFO - TextCleaner initialized
+2026-10-12 02:15:32 - src.models.entity_extractor - INFO - Loading spaCy model...
+2026-10-12 02:15:33 - src.models.entity_extractor - INFO - spaCy model loaded successfully
+2026-10-12 02:15:33 - src.models.contract_classifier - INFO - ContractClassifier initialized
+2026-10-12 02:15:33 - src.models.risk_detector - INFO - RiskDetector initialized
+2026-10-12 02:15:33 - src.analysis.analyzer - INFO - All components initialized successfully
+2026-10-12 02:15:33 - src.analysis.report_generator - INFO - ReportGenerator initialized (output: outputs/reports)
+2026-10-12 02:15:33 - src.analysis.analyzer - INFO - 
+============================================================
+2026-10-12 02:15:33 - src.analysis.analyzer - INFO - ANALYZING: sample_contract.pdf
+2026-10-12 02:15:33 - src.analysis.analyzer - INFO - ============================================================
+
+2026-10-12 02:15:33 - src.analysis.analyzer - INFO - Step 1/5: Extracting text from PDF...
+2026-10-12 02:15:33 - src.utils.pdf_extractor - INFO - Extracting text from: data\raw\sample_contract.pdf
+2026-10-12 02:15:33 - src.utils.pdf_extractor - INFO - Extracted 628 characters using pdfplumber
+2026-10-12 02:15:33 - src.analysis.analyzer - INFO -   OK Extracted 628 characters from 1 pages
+2026-10-12 02:15:33 - src.analysis.analyzer - INFO - 
+Step 2/5: Cleaning text...
+2026-10-12 02:15:33 - src.utils.text_cleaner - INFO - Cleaning text (628 characters)
+2026-10-12 02:15:33 - src.utils.text_cleaner - INFO - Cleaned text (578 characters)
+2026-10-12 02:15:33 - src.analysis.analyzer - INFO -   OK Cleaned: 90 words, 12 sentences
+2026-10-12 02:15:33 - src.analysis.analyzer - INFO - 
+Step 3/5: Extracting entities...
+2026-10-12 02:15:33 - src.models.entity_extractor - INFO - Extracting entities...
+2026-10-12 02:15:33 - src.models.entity_extractor - INFO - Found 3 parties
+2026-10-12 02:15:33 - src.models.entity_extractor - INFO - Found 0 dates
+2026-10-12 02:15:33 - src.models.entity_extractor - INFO - Found 0 amounts
+2026-10-12 02:15:33 - src.models.entity_extractor - INFO - Found 0 emails
+2026-10-12 02:15:33 - src.models.entity_extractor - INFO - Extracted 1 contract terms
+2026-10-12 02:15:33 - src.analysis.analyzer - INFO -   OK Found: 3 parties, 0 dates, 0 amounts
+2026-10-12 02:15:33 - src.analysis.analyzer - INFO - 
+Step 4/5: Classifying contract type...
+2026-10-12 02:15:33 - src.models.contract_classifier - INFO - Classifying contract type...
+2026-10-12 02:15:33 - src.models.contract_classifier - INFO - Classified as: Service Agreement (confidence: 0.50)
+2026-10-12 02:15:33 - src.analysis.analyzer - INFO -   OK Type: Service Agreement (confidence: 0.50)
+2026-10-12 02:15:33 - src.analysis.analyzer - INFO - 
+Step 5/5: Detecting risks...
+2026-10-12 02:15:33 - src.models.risk_detector - INFO - Detecting risks...
+2026-10-12 02:15:33 - src.models.risk_detector - INFO - Detected 6 risks
+2026-10-12 02:15:33 - src.analysis.analyzer - INFO -   OK Identified 6 potential risks
+2026-10-12 02:15:33 - src.analysis.analyzer - INFO - 
+============================================================
+2026-10-12 02:15:33 - src.analysis.analyzer - INFO - ANALYSIS COMPLETE
+2026-10-12 02:15:33 - src.analysis.analyzer - INFO - ============================================================
+
+2026-10-12 02:15:33 - src.analysis.report_generator - INFO - JSON saved: outputs\reports\sample_contract.json
+2026-10-12 02:15:33 - src.analysis.report_generator - INFO - Text report saved: outputs\reports\sample_contract.txt
+2026-10-12 02:15:33 - src.analysis.report_generator - INFO - PDF report saved: outputs\reports\sample_contract_report.pdf

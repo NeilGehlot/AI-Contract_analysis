@@ -1,7 +1,5 @@
 """Risk classifier: sentence embeddings plus logistic regression."""
 
-import torch  # preload on Windows before sentence_transformers
-
 import json
 from pathlib import Path
 

@@ -1,7 +1,5 @@
 """Factory helpers for loading model components."""
 
-from pathlib import Path
-
 import yaml
 
 from src.utils.logger import setup_logger
